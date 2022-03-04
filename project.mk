@@ -1,4 +1,5 @@
 clean:
+	-killall node
 	rm -rvf .dockerignore
 	rm -rvf Dockerfile
 	rm -rvf frontend
