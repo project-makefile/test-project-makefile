@@ -265,24 +265,18 @@ eb-init-default:
 django-graph-default:
 	python manage.py graph_models $(PROJECT_NAME) -o graph_models_$(PROJECT_NAME).png
 
-django-init-default: django-install pg-init django-project
-	export SETTINGS=settings.py; $(MAKE) django-settings
-	git add $(PROJECT_NAME)
-	git add manage.py
-	python manage.py webpack_init --skip-checks
-	git add frontend
-	@echo "$$HOME_PAGE" > project/templates/home.html
-	@echo "$$DJANGO_URLS" > project/urls.py
-	$(MAKE) npm-install
-	$(MAKE) migrate
-	$(MAKE) cp
-	$(MAKE) serve
+# django-init-default: db-init django-install django-project
+# 	export SETTINGS=settings.py; $(MAKE) django-settings
+# 	git add $(PROJECT_NAME)
+# 	git add manage.py
+# 	python manage.py webpack_init --skip-checks
+# 	git add frontend
 
-django-install-default:
-	@echo "Django\ndj-database-url\npsycopg2-binary\npython-webpack-boilerplate\n" > requirements.txt
-	@$(MAKE) pip-install
-	@$(MAKE) pip-freeze
-	-git add requirements.txt
+# django-install-default:
+# 	@echo "Django\ndj-database-url\npsycopg2-binary\npython-webpack-boilerplate\n" > requirements.txt
+# 	@$(MAKE) pip-install
+# 	@$(MAKE) pip-freeze
+# 	-git add requirements.txt
 
 django-loaddata-default:
 	python manage.py loaddata
@@ -534,7 +528,7 @@ tidelift-request-all-default:
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 #
 
-wagtail-init-default: wagtail-install pg-init
+wagtail-init-default: db-init
 	wagtail start $(PROJECT_NAME) .
 	export SETTINGS=settings/base.py; $(MAKE) django-settings
 	git add $(PROJECT_NAME)
@@ -544,28 +538,15 @@ wagtail-init-default: wagtail-install pg-init
 	git add .dockerignore
 	git add home
 	git add search
-	@$(MAKE) pip-freeze
-	@$(MAKE) django-webpack-init
 	git add frontend
 	@$(MAKE) django-npm-install
 	@$(MAKE) django-migrate
 	@$(MAKE) su
 	@echo "$$HOME_PAGE" > home/templates/home/home_page.html
 
-wagtail-init-hub:
-	git init
-	hub create -p
-	@$(MAKE) wagtail-init
-	@$(MAKE) make
-	@$(MAKE) readme
-	@$(MAKE) gitignore
-	git commit -m "wagtail-init by project-makefile"
-	@$(MAKE) git-set-upstream
-	@$(MAKE) git-push
-	hub browse
-
 wagtail-install-default:
-	pip3 install dj-database-url psycopg2-binary whitenoise wagtail python-webpack-boilerplate
+	pip3 install dj-database-url psycopg2-binary wagtail python-webpack-boilerplate
+	@$(MAKE) pip-freeze
 
 #
 # .PHONY
@@ -573,6 +554,9 @@ wagtail-install-default:
 #
 
 # django --------------------------------------------------------------------------------
+
+.PHONY: django-init
+django-init: wagtail-init
 
 .PHONY: loaddata
 loaddata: django-loaddata

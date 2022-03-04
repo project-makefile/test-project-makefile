@@ -1,0 +1,19 @@
+{
+  "entrypoints": {
+    "app": {
+      "assets": {
+        "js": [
+          "/static/js/runtime.js"
+        ]
+      }
+    },
+    "app2": {
+      "assets": {
+        "js": [
+          "/static/js/runtime.js"
+        ]
+      }
+    }
+  },
+  "runtime.js": "/static/js/runtime.js"
+}
