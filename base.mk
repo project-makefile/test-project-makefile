@@ -253,7 +253,7 @@ eb-init-default:
 django-graph-default:
 	python manage.py graph_models $(PROJECT_NAME) -o graph_models_$(PROJECT_NAME).png
 
-django-init-default: pg-init django-project
+django-init-default: django-install pg-init django-project
 	export SETTINGS=settings.py; $(MAKE) django-settings
 	git add $(PROJECT_NAME)
 	git add manage.py
@@ -262,7 +262,7 @@ django-init-webpack:
 	python manage.py webpack_init
 
 django-install-default:
-	@echo "Django\ndj-database-url\npsycopg2-binary\nwhitenoise\n" > requirements.txt
+	@echo "Django\ndj-database-url\npsycopg2-binary\npython-webpack-boilerplate\n" > requirements.txt
 	@$(MAKE) pip-install
 	@$(MAKE) pip-freeze
 	-git add requirements.txt
@@ -420,9 +420,6 @@ pip-install-default: pip-upgrade
 pip-install-test-default:
 	pip3 install -r requirements-test.txt
 
-pip-install-wagtail:
-	pip3 install dj-database-url psycopg2-binary whitenoise wagtail python-webpack-boilerplate
-
 pip-install-upgrade-default:
 	cat requirements.txt | awk -F \= '{print $$1}' > $(TMPDIR)/requirements.txt
 	mv -f $(TMPDIR)/requirements.txt .
@@ -551,6 +548,9 @@ wagtail-init-hub:
 	@$(MAKE) git-set-upstream
 	@$(MAKE) git-push
 	hub browse
+
+wagtail-install-default:
+	pip3 install dj-database-url psycopg2-binary whitenoise wagtail python-webpack-boilerplate
 
 #
 # .PHONY
