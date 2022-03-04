@@ -525,13 +525,14 @@ wagtail-init-default: db-init
 	git add .dockerignore
 	git add home
 	git add search
-	git add frontend
 	@$(MAKE) django-migrate
 	@$(MAKE) su
 	@echo "$$HOME_PAGE" > home/templates/home/home_page.html
 	python manage.py webpack_init --skip-checks
 	git add frontend
+	@$(MAKE) cp
 	@$(MAKE) django-npm-install
+	@$(MAKE) serve
 
 wagtail-install-default:
 	pip3 install dj-database-url psycopg2-binary wagtail python-webpack-boilerplate
