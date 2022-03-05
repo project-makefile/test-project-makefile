@@ -188,14 +188,14 @@ pipeline {
 	}
 }
 endef
-define URLS
+define API_AUTH
 urlpatterns = urlpatterns + [
     path('api-auth/', include('rest_framework.urls'))
 ]
 endef
 export HOME_PAGE
 export JENKINS_FILE
-export DJANGO_URLS
+export API_AUTH
 
 # Rules
 # ------------------------------------------------------------------------------  
@@ -309,7 +309,7 @@ django-user-default:
 
 django-urls-default:
 	echo "\n# $(PROJECT_NAME)\n" >> $(PROJECT_NAME)/$(URLS)
-	echo "$(URLS)\n" >> $(PROJECT_NAME)/$(URLS)
+	echo "$$API_AUTH" >> $(PROJECT_NAME)/$(URLS)
 
 django-npm-install-default:
 	cd frontend; npm install

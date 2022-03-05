@@ -37,3 +37,9 @@ urlpatterns = urlpatterns + [
     # of your site, rather than the site root:
     #    path("pages/", include(wagtail_urls)),
 ]
+
+# project
+
+urlpatterns = urlpatterns + [
+    path('api-auth/', include('rest_framework.urls'))
+]
