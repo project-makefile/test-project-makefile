@@ -8,8 +8,3 @@ clean:
 	rm -rvf project
 	rm -rvf search
 	rm -rvf requirements.txt
-
-test-project-makefile: clean
-	pip install project-makefile
-	project-makefile .
-	$(MAKE) django-init
